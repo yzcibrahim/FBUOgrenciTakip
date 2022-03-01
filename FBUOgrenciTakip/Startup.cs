@@ -1,4 +1,5 @@
 using DataAccessLayer;
+using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,9 @@ namespace FBUOgrenciTakip
         {
             services.AddDbContext<OgrDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection")));
-
+           
+            services.AddTransient<OgrRepository, OgrRepository>();
+           
             services.AddControllersWithViews();
         }
 

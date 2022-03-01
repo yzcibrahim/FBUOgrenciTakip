@@ -32,6 +32,23 @@ namespace DataAccessLayer.Repositories
             return ogr;
         }
 
+        public Ogrenci GetById(int id)
+        {
+           return _ctx.Ogrenciler.FirstOrDefault(c => c.Id==id);
+        }
+
+        public void Delete(int id)
+        {
+            Ogrenci silinecekOgrenci = GetById(id);
+            _ctx.Ogrenciler.Remove(silinecekOgrenci);
+            _ctx.SaveChanges();
+        }
+
+        public List<Ogrenci> List()
+        {
+            return _ctx.Ogrenciler.ToList();
+        }
+
 
     }
 }
