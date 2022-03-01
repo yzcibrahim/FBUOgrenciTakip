@@ -9,6 +9,20 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div class="row">
+    <form asp-action="Index">
+        <div class="col-md-2">
+        Ad:<input type="text" id="aranacak" name="aranacak" value="@ViewBag.aranacak" />
+        </div>
+        <div class="col-md-2">
+        Soyad:<input type="text" id="aranacakSoyad" name="aranacakSoyad" value="@ViewBag.aranacakSoyad" />
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="Ara" class="btn btn-primary" />
+
+        </div>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -43,9 +57,9 @@
                 @Html.DisplayFor(modelItem => item.Tel)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Edit", "Edit", new {  id= item.Id }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
             </td>
         </tr>
 }
