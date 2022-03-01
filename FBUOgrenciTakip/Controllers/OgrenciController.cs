@@ -11,9 +11,11 @@ namespace FBUOgrenciTakip.Controllers
     public class OgrenciController : Controller
     {
         OgrRepository _ogrRepository;
-        public OgrenciController(OgrRepository ogrRepository)
+        NotRepository _notRepository;
+        public OgrenciController(OgrRepository ogrRepository, NotRepository notRepository)
         {
             _ogrRepository = ogrRepository;
+            _notRepository = notRepository;
         }
         public IActionResult Index()
         {
@@ -62,6 +64,30 @@ namespace FBUOgrenciTakip.Controllers
             _ogrRepository.AddOrUpdate(ogr);
             return RedirectToAction("Index");
         }
+
+        public IActionResult Details(int id)
+        {
+            Ogrenci ogr = _ogrRepository.GetById(id);
+            return View(ogr);
+        }
+
+        public IActionResult AddNote(int id)
+        {
+            Ogrenci ogr = _ogrRepository.GetById(id);
+            Not nt = new Not();
+            nt.Ogr = ogr;
+            nt.OgrId = ogr.Id;
+            return View(nt);
+        }
+        
+        [HttpPost]
+        public IActionResult AddNote(Not nt)
+        {
+            nt=_notRepository.AddOrUpdate(nt);
+            return RedirectToAction("Details",new { id = nt.OgrId });
+        }
+
+
 
         public IActionResult Delete(int id)
         {

@@ -12,5 +12,7 @@ namespace DataAccessLayer.Entities
         public string Ad { get; set; }
         public string Soyad { get; set; }
         public string Tel { get; set; }
+
+        public ICollection<Not> Nots { get; set; }
     }
 }

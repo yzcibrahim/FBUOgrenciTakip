@@ -34,7 +34,7 @@ namespace DataAccessLayer.Repositories
 
         public Ogrenci GetById(int id)
         {
-           return _ctx.Ogrenciler.FirstOrDefault(c => c.Id==id);
+           return _ctx.Ogrenciler.Include(c=>c.Nots).FirstOrDefault(c => c.Id==id);
         }
 
         public void Delete(int id)

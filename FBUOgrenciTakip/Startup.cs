@@ -29,7 +29,8 @@ namespace FBUOgrenciTakip
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection")));
            
             services.AddTransient<OgrRepository, OgrRepository>();
-           
+            services.AddTransient<NotRepository, NotRepository>();
+
             services.AddControllersWithViews();
         }
 
