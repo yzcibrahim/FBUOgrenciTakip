@@ -83,16 +83,56 @@ namespace FBUOgrenciTakip.Controllers
         [HttpPost]
         public IActionResult AddNote(Not nt)
         {
+            List<myConfig> cfgs = _ogrRepository.listCfg();
+
+            myConfig cfg = cfgs.First(c => c.Key == "maxNoteCount");
+            int notCount = Convert.ToInt32(cfg.Value);
+
+            myConfig cfgMessage = cfgs.First(c => c.Key == "maxNoteMessage");
+
+            Ogrenci ogr = _ogrRepository.GetById(nt.OgrId);
+           
+            if(ogr.Nots.Count>= notCount)
+            {
+                ModelState.AddModelError("Text", cfgMessage.Value);
+            }
+
+            if(!ModelState.IsValid)
+            {
+                nt.Ogr = ogr;
+                return View(nt);
+            }
+
             nt=_notRepository.AddOrUpdate(nt);
             return RedirectToAction("Details",new { id = nt.OgrId });
         }
-
-
 
         public IActionResult Delete(int id)
         {
             _ogrRepository.Delete(id);
             return RedirectToAction("Index");
+        }
+        public IActionResult NotDelete(int id, int ogrId)
+        {
+           // var silinecekNot = _notRepository.GetById(id);
+            _notRepository.Delete(id);
+            return RedirectToAction("Details",new { id= ogrId });
+        }
+
+        public IActionResult NotEdit(int id, int ogrId)
+        {
+            Not editlenecekNot = _notRepository.GetById(id);
+            editlenecekNot.Ogr = _ogrRepository.GetById(editlenecekNot.OgrId);
+            //editlenecekNot.og
+            return View(editlenecekNot);
+        }
+
+        [HttpPost]
+        public IActionResult NotEdit(Not nt)
+        {
+            _notRepository.AddOrUpdate(nt);
+
+            return RedirectToAction("Details", new { id = nt.OgrId });
         }
     }
 }

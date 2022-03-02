@@ -59,6 +59,24 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Ogrenciler");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Entities.myConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MyConfigs");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Entities.Not", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Ogrenci", "Ogr")

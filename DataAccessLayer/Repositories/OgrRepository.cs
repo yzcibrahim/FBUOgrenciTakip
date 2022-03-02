@@ -49,6 +49,10 @@ namespace DataAccessLayer.Repositories
             return _ctx.Ogrenciler.ToList();
         }
 
+        public List<myConfig> listCfg()
+        {
+            return _ctx.MyConfigs.ToList();
+        }
 
     }
 }
