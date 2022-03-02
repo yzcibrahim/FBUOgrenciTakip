@@ -3,6 +3,68 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 id="changeArea" class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+taban:
+<input type="text" id="deger" value="0" />
+üs:
+<input type="text" id="us" value="0" />
+<input type="button" value="click me" onclick="getNumber()" />
+
+<div>
+    telNo:<input type="text" id="tel"
+                 onfocus="focuslandi()" onfocusout="focusout()" />
+</div>
+<div>
+    <div><input type="text" id="id" /></div>
+    <div><input type="text" id="ad" /></div>
+    <div><input type="text" id="soyad" /></div>
+</div>
+
+@section Scripts
+{
+<script>
+    function getNumber() {
+        var sayiDeger = $('#deger').val();
+        var usDeger = $('#us').val();
+        var url = "/Home/GetNumber?sayi=" + sayiDeger + "&us=" + usDeger
+
+        $.get(url, function (kaan, status) {
+            $('#changeArea').html(kaan);
+        });
+
+
+    }
+    function callbackF(data, status) {
+        $('#changeArea').html(data);
+    }
+
+    function focuslandi() {
+        console.log("focus event fired")
+    }
+
+    function focusout() {
+        console.log("focus aut fired")
+    }
+
+    function changeEvent() {
+        $.get("/Home/GetUserByTel?sacma=" + $('#tel').val(),
+            function (res, status) {
+                if (res.success == true) {
+                    $('#ad').val(res.data.ad);
+                    $('#soyad').val(res.data.soyad);
+                    $('#id').val(res.data.id);
+                }
+                else {
+
+                    $('#ad').val("");
+                    $('#soyad').val("");
+                    $('#id').val(res.yazi);
+                }
+        });
+    }
+
+    $('#tel').change(changeEvent);
+</script>
+}

@@ -1,4 +1,6 @@
-﻿using FBUOgrenciTakip.Models;
+﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Repositories;
+using FBUOgrenciTakip.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,9 +14,10 @@ namespace FBUOgrenciTakip.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        OgrRepository _ogrenciRepository;
+        public HomeController(ILogger<HomeController> logger, OgrRepository ogrenciRepository)
         {
+            _ogrenciRepository = ogrenciRepository;
             _logger = logger;
         }
 
@@ -23,6 +26,31 @@ namespace FBUOgrenciTakip.Controllers
             return View();
         }
 
+        
+        public double GetNumber(int sayi, int us)
+        {
+            double result = 1;
+            for(int i=0;i<us;i++)
+            {
+                //result = result * sayi;
+                result *= sayi;
+            }
+            return result;
+          //  return Math.Pow(sayi, us);
+          
+        }
+
+        public JsonResult GetUserByTel(string sacma)
+        {
+           
+            List<Ogrenci> liste = _ogrenciRepository.List();
+            Ogrenci result = liste.FirstOrDefault(c => c.Tel == sacma);
+
+            if (result == null)
+                return new JsonResult(new { success = false,yazi="KAyıt bulunamıyorduuuu..." });
+            else
+                return new JsonResult(new { success = true, data = result });
+        }
         public IActionResult Privacy()
         {
             return View();
