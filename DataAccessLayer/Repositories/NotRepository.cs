@@ -49,6 +49,11 @@ namespace DataAccessLayer.Repositories
             return _ctx.Notlar.ToList();
         }
 
+        public List<Not> ListByOgrId(int ogrId)
+        {
+            return _ctx.Notlar.Where(c => c.OgrId == ogrId).ToList();
+        }
+
 
     }
 }

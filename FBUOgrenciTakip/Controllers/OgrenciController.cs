@@ -107,6 +107,8 @@ namespace FBUOgrenciTakip.Controllers
             return RedirectToAction("Details",new { id = nt.OgrId });
         }
 
+
+
         public IActionResult Delete(int id)
         {
             _ogrRepository.Delete(id);
@@ -133,6 +135,27 @@ namespace FBUOgrenciTakip.Controllers
             _notRepository.AddOrUpdate(nt);
 
             return RedirectToAction("Details", new { id = nt.OgrId });
+        }
+
+        public JsonResult SaveNote(int ogrId, string text)
+        {
+            Not nt = new Not();
+            nt.OgrId = ogrId;
+            nt.Text = text;
+            
+            if(nt.Text.Length<5)
+            {
+                return Json(new { success = false, hata = "not çok kısa" });
+            }
+            
+            nt=_notRepository.AddOrUpdate(nt);
+            return Json(new { success=true,notId=nt.Id});
+        }
+
+        public IActionResult NotListByOgrId(int ogrId)
+        {
+            List<Not> model = _notRepository.ListByOgrId(ogrId);
+            return PartialView(model);
         }
     }
 }
