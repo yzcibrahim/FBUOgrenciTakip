@@ -65,6 +65,13 @@ namespace FBUOgrenciTakip.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult EditOgrByAjax(Ogrenci ogr)
+        {
+            _ogrRepository.AddOrUpdate(ogr);
+            return Json(new { success = true, ogr });
+        }
+
         public IActionResult Details(int id)
         {
             Ogrenci ogr = _ogrRepository.GetById(id);
@@ -156,6 +163,12 @@ namespace FBUOgrenciTakip.Controllers
         {
             List<Not> model = _notRepository.ListByOgrId(ogrId);
             return PartialView(model);
+        }
+
+        public JsonResult deleteNoteAjax(int id)
+        {
+            _notRepository.Delete(id);
+            return Json(true);
         }
     }
 }

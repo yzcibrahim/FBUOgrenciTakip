@@ -9,7 +9,7 @@
             <div class="col-md-2">
                 @rowNum -
                 <a href="/Ogrenci/NotEdit/@nt.Id/@nt.OgrId" class="bi bi-pen"></a>
-                <a href="/Ogrenci/NotDelete/@nt.Id/@nt.OgrId" class="bi bi-trash"></a>
+                <a onclick="deleteNote(@nt.Id)" class="bi bi-trash"></a>
 
             </div>
             <div class="col-md-8">
@@ -20,3 +20,12 @@
         rowNum++;
     }
 </div>
+
+<script>
+    function deleteNote(id) {
+        alert(id);
+        $.get("/Ogrenci/deleteNoteAjax?id=" + id, function () {
+            loadNOtList();
+        });
+    }
+</script>

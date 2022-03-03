@@ -55,7 +55,7 @@ namespace FBUOgrenciTakip
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}/{ogrId?}");
+                    pattern: "{controller=Ogrenci}/{action=Index}/{id?}/{ogrId?}");
             });
         }
     }
