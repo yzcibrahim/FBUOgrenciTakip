@@ -1,0 +1,87 @@
+﻿@model int
+
+        <div>
+            <h1>
+                Öğrenciler
+            </h1>
+        </div>
+        <div><input type="text" id="searchOgrId" value="@Model" />
+    <img id="myimage" src="~/images/loading.gif" style="display:none"  width="30" /></div>
+        <div id="valMessage" class="alert-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-2">Id</div>
+                    <div class="col-md-10"><span id="ogrId">0</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">Ad</div>
+                    <div class="col-md-10"><span id="ogrName">0</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">Soyad</div>
+                    <div class="col-md-10"><span id="ogrSurName">0</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">Telefon</div>
+                    <div class="col-md-10"><span id="ogrTel">0</span></div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
+    @section Scripts
+{
+        <script>
+    $(document).ready(function () {
+        GetOgrenci(@Model);
+
+        $('#searchOgrId').change(function () {
+            GetOgrenci($('#searchOgrId').val());
+        })
+    });
+
+        function GetOgrenci(ogrId) {
+            console.log("öğrenci id :" + ogrId + " için çalışıyor");
+
+            var url = "http://localhost:10428/api/Ogr/" + ogrId
+
+
+            $('#myimage').toggle();
+            $('#ogrId').html("");
+            $('#ogrName').html("");
+            $('#ogrSurName').html("");
+            $('#ogrTel').html("");
+            $('#valMessage').html("");
+
+            $("#searchOgrId").prop('disabled', true); //disable.
+            
+            $.get(url, function (data, status) {
+                $('#myimage').toggle();
+                $("#searchOgrId").prop('disabled', false); //enable.
+                if (data.success) {
+                    $('#ogrId').html(data.id);
+                    $('#ogrName').html(data.ad);
+                    $('#ogrSurName').html(data.soyad);
+                    $('#ogrTel').html(data.tel);
+                    $('#valMessage').html("");
+                }
+                else {
+
+                    $('#valMessage').html(data.errorMessage);
+                }
+
+
+            });
+          
+
+          
+
+    }
+
+        </script>
+
+    }

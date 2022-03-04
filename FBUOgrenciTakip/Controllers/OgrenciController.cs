@@ -84,6 +84,12 @@ namespace FBUOgrenciTakip.Controllers
             return View(ogr);
         }
 
+        public IActionResult Details1(int id)
+        {
+            
+            return View(id);
+        }
+
         public IActionResult AddNote(int id)
         {
             Ogrenci ogr = _ogrRepository.GetById(id);
