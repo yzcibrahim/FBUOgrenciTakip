@@ -35,7 +35,7 @@ namespace FBUFirstApi.Controllers
         {
             OgrenciDto result = new OgrenciDto();
 
-            Thread.Sleep(5000);
+           // Thread.Sleep(5000);
 
             Ogrenci ogr = _ogrenciRepository.GetById(id);
             if (ogr == null)
