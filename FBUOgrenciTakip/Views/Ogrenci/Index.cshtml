@@ -12,10 +12,10 @@
 <div class="row">
     <form asp-action="Index">
         <div class="col-md-2">
-        Ad:<input type="text" id="aranacak" name="aranacak" value="@ViewBag.aranacak" />
+        Ad:<input type="text" id="aranacak" name="aranacak"  />
         </div>
         <div class="col-md-2">
-        Soyad:<input type="text" id="aranacakSoyad" name="aranacakSoyad" value="@ViewBag.aranacakSoyad" />
+        Soyad:<input type="text" id="aranacakSoyad" name="aranacakSoyad"  />
         </div>
         <div class="col-md-1">
             <input type="submit" value="Ara" class="btn btn-primary" />
@@ -23,45 +23,24 @@
         </div>
     </form>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Soyad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tel)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Soyad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tel)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id= item.Id }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
-            </td>
-        </tr>
+<input type="button" class="btn btn-danger searchOgr" value="SearchByAjax" />
+<div id="ogrList" name="ogrList">
+    @Html.Partial("OgrListPartial", Model)
+</div>
+
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+
+        $('.searchOgr').click(function () {
+            let araAd = $('#aranacak').val();
+            let araSoyad = $('#aranacakSoyad').val();
+            let url = "/Ogrenci/OgrListPartial?aranacak=" + araAd + "&aranacakSoyad=" + araSoyad;
+            console.log(url);
+            $('#ogrList').load(url);
+        })
+
+    });
+   
+</script>
 }
-    </tbody>
-</table>

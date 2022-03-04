@@ -42,6 +42,12 @@ namespace FBUOgrenciTakip.Controllers
             return View(model);
         }
 
+        public IActionResult OgrListPartial(string aranacak, string aranacakSoyad)
+        {
+            List<Ogrenci> model = _ogrRepository.List(aranacak,aranacakSoyad);
+            return View(model);
+        }
+
         public IActionResult Create()
         {
             return View();

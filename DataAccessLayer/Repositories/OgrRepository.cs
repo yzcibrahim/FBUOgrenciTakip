@@ -44,10 +44,22 @@ namespace DataAccessLayer.Repositories
             _ctx.SaveChanges();
         }
 
-        public List<Ogrenci> List()
+        public List<Ogrenci> List(string aranacakAd="", string AranacakSoyad="")
         {
-            return _ctx.Ogrenciler.ToList();
+            var query = _ctx.Ogrenciler.Where(c=>1==1);
+            
+            if (!String.IsNullOrEmpty(aranacakAd))
+            {
+                query = query.Where(c => c.Ad == aranacakAd);
+            }
+            if(!String.IsNullOrEmpty(AranacakSoyad))
+            {
+                query = query.Where(c => c.Soyad == AranacakSoyad);
+            }
+            return query.ToList();
         }
+
+        
 
         public List<myConfig> listCfg()
         {
