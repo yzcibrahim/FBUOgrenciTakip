@@ -26,6 +26,9 @@ namespace FBUOgrenciTakip.Controllers
         [HttpPost]
         public IActionResult Index(string aranacak, string aranacakSoyad)
         {
+            //var result = _ogrRepository.GetByIdGeneric(1);
+            //var resultNot = _notRepository.GetByIdGeneric(4);
+
             List<Ogrenci> model = _ogrRepository.List();
             if (!String.IsNullOrEmpty(aranacak))
             {
@@ -44,7 +47,7 @@ namespace FBUOgrenciTakip.Controllers
 
         public IActionResult OgrListPartial(string aranacak, string aranacakSoyad)
         {
-            List<Ogrenci> model = _ogrRepository.List(aranacak,aranacakSoyad);
+            List<Ogrenci> model = _ogrRepository.Search(aranacak,aranacakSoyad);
             return View(model);
         }
 

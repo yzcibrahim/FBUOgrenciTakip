@@ -1,4 +1,5 @@
 using DataAccessLayer;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,8 @@ namespace FBUOgrenciTakip
            
             services.AddTransient<OgrRepository, OgrRepository>();
             services.AddTransient<NotRepository, NotRepository>();
-
+             services.AddTransient<IRepository<myConfig>, MyCfgRepository>();
+             // services.AddSingleton<IRepository<myConfig>, CfgRepositoryMock>();
             services.AddControllersWithViews();
         }
 

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
-    public class Not
+    public class Not:BaseEntity
     {
-        public int Id { get; set; }
         public string Text { get; set; }
         
         public int OgrId { get; set; }
