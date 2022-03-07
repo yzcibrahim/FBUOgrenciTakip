@@ -52,8 +52,14 @@ namespace FBUFirstApi.Controllers
 
         // POST api/<NoteController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public bool Post([FromForm]int ogrId,[FromForm] string noteText,[FromForm] int notId)
         {
+            Not not = new Not();
+            not.OgrId = ogrId;
+            not.Text = noteText;
+            not.Id = notId;
+            _repo.AddOrUpdate(not);
+            return true;
         }
 
         // PUT api/<NoteController>/5
@@ -66,6 +72,7 @@ namespace FBUFirstApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _repo.Delete(id);
         }
     }
 }
