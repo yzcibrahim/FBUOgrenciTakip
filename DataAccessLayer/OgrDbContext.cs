@@ -18,6 +18,8 @@ namespace DataAccessLayer
         public DbSet<Ogrenci> Ogrenciler { get; set; }
         public DbSet<Not> Notlar { get; set; }
         public DbSet<myConfig> MyConfigs { get; set; }
-        
+
+        public DbSet<Ogretmen> Ogretmenler { get; set; }
+
     }
 }

@@ -28,11 +28,12 @@ namespace FBUOgrenciTakip
         {
             services.AddDbContext<OgrDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection")));
-           
+
             services.AddTransient<OgrRepository, OgrRepository>();
             services.AddTransient<NotRepository, NotRepository>();
-             services.AddTransient<IRepository<myConfig>, MyCfgRepository>();
-             // services.AddSingleton<IRepository<myConfig>, CfgRepositoryMock>();
+            services.AddTransient<IRepository<myConfig>, MyCfgRepository>();
+            services.AddTransient<IRepository<Ogretmen>, OgretmenRepository>();
+            // services.AddSingleton<IRepository<myConfig>, CfgRepositoryMock>();
             services.AddControllersWithViews();
         }
 
