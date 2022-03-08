@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class OgrRepository:BaseRepository<Ogrenci>
+    public class OgrRepository:BaseRepository<Ogrenci>, IRepository<Ogrenci>
     {
         public OgrRepository(OgrDbContext ctx):base(ctx)
         {

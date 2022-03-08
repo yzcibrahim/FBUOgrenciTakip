@@ -33,6 +33,7 @@ namespace FBUOgrenciTakip
             services.AddTransient<NotRepository, NotRepository>();
             services.AddTransient<IRepository<myConfig>, MyCfgRepository>();
             services.AddTransient<IRepository<Ogretmen>, OgretmenRepository>();
+            services.AddTransient<IRepository<Ogrenci>, OgrRepository>();
             // services.AddSingleton<IRepository<myConfig>, CfgRepositoryMock>();
             services.AddControllersWithViews();
         }

@@ -1,0 +1,63 @@
+﻿@model FBUOgrenciTakip.Models.OgretmenViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>OgretmenViewModel</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Ad)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Ad)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Soyad)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Soyad)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <h3> atanmış</h3>
+        @foreach(var item in Model.AtanmisOgrenciler)
+            {
+                <div id="atanmis_@item.Id">@item.Id | @item.Ad | @item.Soyad</div>
+            }
+
+    </div>
+    <div class="col-md-4">
+        <h3> bekleyen</h3>
+        @foreach (var item in Model.BosOgrenciler)
+        {
+            <div id="bos_@item.Id" onclick="moveToAtanmis(@item.Id)">@item.Id | @item.Ad | @item.Soyad</div>
+        }
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+
+<script>
+    function moveToAtanmis(ogrId) {
+
+
+    }
+</script>
+}
