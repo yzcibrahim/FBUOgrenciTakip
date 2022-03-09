@@ -31,19 +31,19 @@
             </dd>
         </dl>
     </div>
-    <div class="col-md-4">
+    <div id="divAtanmis" class="col-md-4">
         <h3> atanmış</h3>
         @foreach(var item in Model.AtanmisOgrenciler)
             {
-                <div id="atanmis_@item.Id">@item.Id | @item.Ad | @item.Soyad</div>
+    <div id="ogr_@item.Id" bos="0" onclick="moveToAtanmis(this,@item.Id)">@item.Id | @item.Ad | @item.Soyad</div>
             }
 
     </div>
-    <div class="col-md-4">
+    <div id="divBos" class="col-md-4">
         <h3> bekleyen</h3>
         @foreach (var item in Model.BosOgrenciler)
         {
-            <div id="bos_@item.Id" onclick="moveToAtanmis(@item.Id)">@item.Id | @item.Ad | @item.Soyad</div>
+            <div id="ogr_@item.Id" bos="1" onclick="moveToAtanmis(this,@item.Id)">@item.Id | @item.Ad | @item.Soyad</div>
         }
     </div>
 </div>
@@ -54,10 +54,41 @@
 
 @section Scripts{
 
-<script>
-    function moveToAtanmis(ogrId) {
+    <script>
+    function moveToAtanmis(divToAdd,ogrId) {
+        //var divId = "#ogr_" + ogrId;
+        //var divToAdd = $(divId);
+        let ogretmenId =@Model.Id;
+        if (divToAdd.getAttribute("bos") == "1") {
+            $('#divAtanmis').append(divToAdd);
+            divToAdd.setAttribute("bos", "0");
+        }
+        else {
+            $('#divBos').append(divToAdd);
+            divToAdd.setAttribute("bos", "1");
+            ogretmenId = 0;
+        }
+
+        var url = "http://localhost:10428/api/Ogr/";
+        var data = {
+            ogrId: ogrId
+            ,ogretmenId:ogretmenId
+        };
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                getNotesByOgr(ogrId);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
 
 
     }
-</script>
+    </script>
 }

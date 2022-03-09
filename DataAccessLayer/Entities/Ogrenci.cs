@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
@@ -16,6 +17,7 @@ namespace DataAccessLayer.Entities
         public ICollection<Not> Nots { get; set; }
 
         [ForeignKey("OgretmenId")]
+        [JsonIgnore]
         public virtual Ogretmen Ogretmen { get; set; }
     }
 }

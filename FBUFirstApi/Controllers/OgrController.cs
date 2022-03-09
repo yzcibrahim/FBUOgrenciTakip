@@ -54,8 +54,11 @@ namespace FBUFirstApi.Controllers
 
         // POST api/<OgrController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromForm] int ogrId, [FromForm] int ogretmenId)
         {
+            var ogrenci = _ogrenciRepository.GetById(ogrId);
+            ogrenci.OgretmenId = ogretmenId==0?null: ogretmenId;
+            _ogrenciRepository.AddOrUpdate(ogrenci);
         }
 
         // PUT api/<OgrController>/5
