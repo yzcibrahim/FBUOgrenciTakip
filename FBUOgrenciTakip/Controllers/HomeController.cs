@@ -14,8 +14,8 @@ namespace FBUOgrenciTakip.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        OgrRepository _ogrenciRepository;
-        public HomeController(ILogger<HomeController> logger, OgrRepository ogrenciRepository)
+        IRepository<Ogrenci> _ogrenciRepository;
+        public HomeController(ILogger<HomeController> logger, IRepository<Ogrenci> ogrenciRepository)
         {
             _ogrenciRepository = ogrenciRepository;
             _logger = logger;

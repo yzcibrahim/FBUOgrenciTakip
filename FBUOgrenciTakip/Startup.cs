@@ -29,7 +29,7 @@ namespace FBUOgrenciTakip
             services.AddDbContext<OgrDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection")));
 
-            services.AddTransient<OgrRepository, OgrRepository>();
+           
             services.AddTransient<NotRepository, NotRepository>();
             services.AddTransient<IRepository<myConfig>, MyCfgRepository>();
             services.AddTransient<IRepository<Ogretmen>, OgretmenRepository>();

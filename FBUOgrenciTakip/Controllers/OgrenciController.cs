@@ -1,8 +1,10 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,9 +12,9 @@ namespace FBUOgrenciTakip.Controllers
 {
     public class OgrenciController : Controller
     {
-        OgrRepository _ogrRepository;
+        IRepository<Ogrenci> _ogrRepository;
         NotRepository _notRepository;
-        public OgrenciController(OgrRepository ogrRepository, NotRepository notRepository)
+        public OgrenciController(IRepository<Ogrenci> ogrRepository, NotRepository notRepository)
         {
             _ogrRepository = ogrRepository;
             _notRepository = notRepository;
@@ -47,8 +49,14 @@ namespace FBUOgrenciTakip.Controllers
 
         public IActionResult OgrListPartial(string aranacak, string aranacakSoyad)
         {
-            List<Ogrenci> model = _ogrRepository.Search(aranacak,aranacakSoyad);
-            return View(model);
+            if (_ogrRepository is OgrRepository)
+            {
+                //  List<Ogrenci> model = ((OgrRepository)_ogrRepository).Search(aranacak, aranacakSoyad);
+                List<Ogrenci> model = (_ogrRepository as OgrRepository).Search(aranacak, aranacakSoyad);
+                return View(model);
+            }
+
+            return View(new List<Ogrenci>());
         }
 
         public IActionResult Create()
@@ -70,7 +78,19 @@ namespace FBUOgrenciTakip.Controllers
         [HttpPost]
         public IActionResult Edit(Ogrenci ogr)
         {
+            IFormFile file1 = Request.Form.Files[0];
+
+            string fileName = Guid.NewGuid() + ".jpg";
+            string filePath = $"wwwroot/images/{fileName}";
+            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                file1.CopyTo(fileStream);
+            }
+
+
+            ogr.FileName = fileName;
             _ogrRepository.AddOrUpdate(ogr);
+
             return RedirectToAction("Index");
         }
 
@@ -105,7 +125,7 @@ namespace FBUOgrenciTakip.Controllers
         [HttpPost]
         public IActionResult AddNote(Not nt)
         {
-            List<myConfig> cfgs = _ogrRepository.listCfg();
+            List<myConfig> cfgs = (_ogrRepository as OgrRepository).listCfg();
 
             myConfig cfg = cfgs.First(c => c.Key == "maxNoteCount");
             int notCount = Convert.ToInt32(cfg.Value);

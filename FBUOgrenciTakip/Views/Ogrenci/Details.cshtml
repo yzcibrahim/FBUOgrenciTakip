@@ -39,13 +39,20 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <input type="text" id="newNote" name="newNote" class="form-control" />
-                <input style="float:right" id="btnSaveNote" type="button" value="Not Kaydet" class="btn btn-primary" />
+            <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    @{ string imageStr = $"/images/{Model.FileName}";}
+                    <img src="@imageStr" width="280" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input type="text" id="newNote" name="newNote" class="form-control" />
+                    <input style="float:right" id="btnSaveNote" type="button" value="Not Kaydet" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-    </div>
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

@@ -14,6 +14,8 @@ namespace DataAccessLayer.Entities
         public string Soyad { get; set; }
         public string Tel { get; set; }
         public int? OgretmenId { get; set; }
+
+        public string FileName { get; set; }
         public ICollection<Not> Nots { get; set; }
 
         [ForeignKey("OgretmenId")]
