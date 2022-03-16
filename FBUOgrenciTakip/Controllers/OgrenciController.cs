@@ -19,6 +19,7 @@ namespace FBUOgrenciTakip.Controllers
             _ogrRepository = ogrRepository;
             _notRepository = notRepository;
         }
+
         public IActionResult Index()
         {
             List<Ogrenci> model = _ogrRepository.List();

@@ -23,6 +23,8 @@ namespace FBUOgrenciTakip.Controllers
 
         public IActionResult Index()
         {
+            var ogrenciler = _ogrenciRepository.List();
+            ViewData["ogrenciler"] = ogrenciler;
             return View();
         }
 
