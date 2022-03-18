@@ -3,6 +3,7 @@ using DataAccessLayer.Repositories;
 using FBUOgrenciTakip.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,25 @@ namespace FBUOgrenciTakip.Controllers
     {
         IRepository<Ogretmen> _repository;
         IRepository<Ogrenci> _ogrRepository;
-
-        public OgretmenController(IRepository<Ogretmen> repository, IRepository<Ogrenci> ogrRepository)
+        IMemoryCache _memoryCache;
+        public OgretmenController(IRepository<Ogretmen> repository, 
+            IRepository<Ogrenci> ogrRepository,
+            IMemoryCache memoryCache)
         {
             _repository = repository;
             _ogrRepository = ogrRepository;
+            _memoryCache = memoryCache;
         }
         // GET: OgretmenController
         public ActionResult Index()
         {
+            List<OgretmenViewModel> model;
+            if (_memoryCache.TryGetValue<List<OgretmenViewModel>>("ogretmeListesi", out model))
+            {
+                return View(model);
+            }
+            model = new List<OgretmenViewModel>();
             List<Ogretmen> liste = _repository.List();
-
-            List<OgretmenViewModel> model = new List<OgretmenViewModel>();
-
             foreach (var ogr in liste)
             {
                 OgretmenViewModel ogrVm = new OgretmenViewModel();
@@ -36,7 +43,7 @@ namespace FBUOgrenciTakip.Controllers
                 ogrVm.Soyad = ogr.Soyad;
                 model.Add(ogrVm);
             }
-
+            _memoryCache.Set("ogretmeListesi", model);
             return View(model);
         }
 
