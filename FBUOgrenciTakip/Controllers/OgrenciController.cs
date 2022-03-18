@@ -2,6 +2,7 @@
 using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,15 +15,28 @@ namespace FBUOgrenciTakip.Controllers
     {
         IRepository<Ogrenci> _ogrRepository;
         NotRepository _notRepository;
-        public OgrenciController(IRepository<Ogrenci> ogrRepository, NotRepository notRepository)
+        IMemoryCache _memCache;
+        public OgrenciController(IRepository<Ogrenci> ogrRepository, NotRepository notRepository,
+            IMemoryCache memCache
+            )
         {
             _ogrRepository = ogrRepository;
             _notRepository = notRepository;
+            _memCache = memCache;
         }
 
         public IActionResult Index()
         {
-            List<Ogrenci> model = _ogrRepository.List();
+            var basTar=DateTime.Now;
+            
+            List<Ogrenci> model =(List<Ogrenci>)_memCache.Get("ogrList");
+                if(model==null)
+            {
+                model=_ogrRepository.List();
+                _memCache.Set("ogrList", model,new TimeSpan(0,0,20));
+            }
+            var bitTar = DateTime.Now;
+            ViewData["duration"] = (bitTar - basTar).TotalMilliseconds;
             return View(model);
         }
 
@@ -79,19 +93,21 @@ namespace FBUOgrenciTakip.Controllers
         [HttpPost]
         public IActionResult Edit(Ogrenci ogr)
         {
-            IFormFile file1 = Request.Form.Files[0];
-
-            string fileName = Guid.NewGuid() + ".jpg";
-            string filePath = $"wwwroot/images/{fileName}";
-            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+            if (Request.Form.Files.Count() > 0)
             {
-                file1.CopyTo(fileStream);
+                IFormFile file1 = Request.Form.Files[0];
+
+                string fileName = Guid.NewGuid() + ".jpg";
+                string filePath = $"wwwroot/images/{fileName}";
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file1.CopyTo(fileStream);
+                }
+                ogr.FileName = fileName;
             }
-
-
-            ogr.FileName = fileName;
             _ogrRepository.AddOrUpdate(ogr);
-
+            _memCache.Set("ogrList",_ogrRepository.List());
+            //_memCache.Remove("ogrList");
             return RedirectToAction("Index");
         }
 

@@ -23,16 +23,19 @@ namespace FBUFirstApi.Controllers
         }
         // GET: api/<OgrController>
         [HttpGet]
-        public IEnumerable<Ogrenci> Get()
+        // public IEnumerable<Ogrenci> Get()
+        public IActionResult Get()
         {
-
-            return _ogrenciRepository.List();
+            
+            return Ok(_ogrenciRepository.List());
+           // return _ogrenciRepository.List();
         }
 
         // GET api/<OgrController>/5
         [HttpGet("{id}")]
-        public OgrenciDto Get(int id)
+        public IActionResult Get(int id)
         {
+            
             OgrenciDto result = new OgrenciDto();
 
            // Thread.Sleep(5000);
@@ -40,25 +43,27 @@ namespace FBUFirstApi.Controllers
             Ogrenci ogr = _ogrenciRepository.GetById(id);
             if (ogr == null)
             {
+               
                 result.Success = false;
                 result.ErrorMessage = "Kayıt Bulunamadı";
-                return result;
+                return NotFound(result);
             }
             result.Success = true;
             result.Id = ogr.Id;
             result.Ad = ogr.Ad;
             result.Tel = ogr.Tel;
             result.Soyad = ogr.Soyad;
-            return result;
+            return Ok(result);
         }
 
         // POST api/<OgrController>
         [HttpPost]
-        public void Post([FromForm] int ogrId, [FromForm] int ogretmenId)
+        public IActionResult Post([FromForm] int ogrId, [FromForm] int ogretmenId)
         {
             var ogrenci = _ogrenciRepository.GetById(ogrId);
             ogrenci.OgretmenId = ogretmenId==0?null: ogretmenId;
-            _ogrenciRepository.AddOrUpdate(ogrenci);
+            var ogr=_ogrenciRepository.AddOrUpdate(ogrenci);
+            return Created("", ogr);
         }
 
         // PUT api/<OgrController>/5
@@ -71,6 +76,8 @@ namespace FBUFirstApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
+           // return Unauthorized();
         }
     }
 }

@@ -36,6 +36,7 @@ namespace FBUOgrenciTakip
             services.AddTransient<IRepository<Ogrenci>, OgrRepository>();
             // services.AddSingleton<IRepository<myConfig>, CfgRepositoryMock>();
             services.AddControllersWithViews();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
