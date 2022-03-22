@@ -15,7 +15,7 @@ namespace FBUFirstApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OgrController : ControllerBase
+    public class OgrController : BaseApiController
     {
         OgrRepository _ogrenciRepository;
         public OgrController(OgrRepository ogrenciRepository)
@@ -29,14 +29,14 @@ namespace FBUFirstApi.Controllers
         [Authorize]
         public IActionResult Get()
         {
-            
+            var loggedInUSer = UserID;
             return Ok(_ogrenciRepository.List());
            // return _ogrenciRepository.List();
         }
 
         // GET api/<OgrController>/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public IActionResult Get(int id)
         {
             
@@ -66,6 +66,7 @@ namespace FBUFirstApi.Controllers
         {
             var ogrenci = _ogrenciRepository.GetById(ogrId);
             ogrenci.OgretmenId = ogretmenId==0?null: ogretmenId;
+            
             var ogr=_ogrenciRepository.AddOrUpdate(ogrenci);
             return Created("", ogr);
         }

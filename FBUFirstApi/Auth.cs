@@ -11,8 +11,11 @@ namespace FBUFirstApi
 {
     public class Auth : IJwtAuth
     {
-        private readonly string _username = "kirtesh";
-        private readonly string _password = "Demo1";
+        private readonly string _username = "yzc";
+        private readonly string _password = "yzc";
+
+        private readonly string adminUser = "admin";
+        private readonly string adminPwd = "admin";
         private readonly string key;
         public Auth(string key)
         {
@@ -20,7 +23,8 @@ namespace FBUFirstApi
         }
         public string Authentication(string username, string password)
         {
-            if (!(username.Equals(_username) || password.Equals(_password)))
+            int userId = 226;
+            if (!(username.Equals(_username) || password.Equals(_password))&& !(username.Equals(adminUser) || password.Equals(adminPwd)))
             {
                 return null;
             }
@@ -28,13 +32,15 @@ namespace FBUFirstApi
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var tokenKey = Encoding.ASCII.GetBytes(key);
+            string role = username == adminUser ? "admin" : "user";
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(
                     new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, username)
+                        new Claim(ClaimTypes.Name, username), new Claim("userId",userId.ToString()),
+                        new Claim(ClaimTypes.Role,role)
                     }
                     ),
                 Expires = DateTime.UtcNow.AddHours(1),
