@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
 using FBUFirstApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,9 @@ namespace FBUFirstApi.Controllers
         }
         // GET: api/<OgrController>
         [HttpGet]
+
         // public IEnumerable<Ogrenci> Get()
+        [Authorize]
         public IActionResult Get()
         {
             
@@ -33,6 +36,7 @@ namespace FBUFirstApi.Controllers
 
         // GET api/<OgrController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             
@@ -79,5 +83,7 @@ namespace FBUFirstApi.Controllers
 
            // return Unauthorized();
         }
+
+
     }
 }

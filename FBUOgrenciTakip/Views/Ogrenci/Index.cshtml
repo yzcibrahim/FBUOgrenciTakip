@@ -28,9 +28,13 @@
     @Html.Partial("OgrListPartial", Model)
 </div>
 
+
+
 <div>
-    <input id="btn_auth" type="button" value="authenticate" />
-    <input id="btn_get" type="button" value="getSth" />
+    <input type="button" onclick="getOgrFromApi()" value="get ogr List" />
+   @* <input type="button" onclick="get()" value="get ogr List" />*@
+    @*<input id="btn_auth" type="button" value="authenticate" />
+    <input id="btn_get" type="button" value="getSth" />*@
 </div>
 
 @section Scripts{ 
@@ -111,6 +115,35 @@
         });
 
     });
+
+    function getOgrFromApi() {
+        console.log("getOgrFromApi called ");
+        $.ajax({
+            url: 'http://localhost:10428/api/Ogr',
+            type: 'GET',
+            dataType: 'json',
+            headers: {
+                'Accept': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Credentials': 'true',
+                "Authorization": "Bearer " + authToken
+
+            },
+            success: function (result, e, t) {
+                console.log(result);
+
+                // getNotesByOgr(ogrId);
+            },
+            error: function (e, t, x) {
+                alert("E");
+                console.log(e);
+                console.log(t);
+            }
+        })
+
+    }
 
 
    
