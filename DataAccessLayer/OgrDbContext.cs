@@ -20,6 +20,7 @@ namespace DataAccessLayer
         public DbSet<myConfig> MyConfigs { get; set; }
 
         public DbSet<Ogretmen> Ogretmenler { get; set; }
+        public DbSet<Hata> Hatalar { get; set; }
 
     }
 }

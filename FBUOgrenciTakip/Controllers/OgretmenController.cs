@@ -37,6 +37,7 @@ namespace FBUOgrenciTakip.Controllers
             List<Ogretmen> liste = _repository.List();
             foreach (var ogr in liste)
             {
+
                 OgretmenViewModel ogrVm = new OgretmenViewModel();
                 ogrVm.Id = ogr.Id;
                 ogrVm.Ad = ogr.Ad;

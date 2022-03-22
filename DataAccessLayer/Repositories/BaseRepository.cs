@@ -46,6 +46,19 @@ namespace DataAccessLayer.Repositories
 
         public List<T> List()
         {
+            //try
+            //{
+            //    throw new Exception("HAta alındı");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Exception exception = new Exception("listeleme hatası", ex);
+
+                
+
+                
+            //    throw exception;
+            //}
             return _ctx.Set<T>().ToList();
         }
     }

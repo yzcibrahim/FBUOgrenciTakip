@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
+using FBUOgrenciTakip.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -25,8 +26,10 @@ namespace FBUOgrenciTakip.Controllers
             _memCache = memCache;
         }
 
+        [MyAuthorize]
         public IActionResult Index()
         {
+          
             var basTar=DateTime.Now;
             
             List<Ogrenci> model =(List<Ogrenci>)_memCache.Get("ogrList");
@@ -37,6 +40,7 @@ namespace FBUOgrenciTakip.Controllers
             }
             var bitTar = DateTime.Now;
             ViewData["duration"] = (bitTar - basTar).TotalMilliseconds;
+           
             return View(model);
         }
 
@@ -74,11 +78,13 @@ namespace FBUOgrenciTakip.Controllers
             return View(new List<Ogrenci>());
         }
 
+        [MyAuthorize]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [MyAuthorize]
         public IActionResult Create(Ogrenci ogr)
         {
             _ogrRepository.AddOrUpdate(ogr);

@@ -28,8 +28,14 @@
     @Html.Partial("OgrListPartial", Model)
 </div>
 
+<div>
+    <input id="btn_auth" type="button" value="authenticate" />
+    <input id="btn_get" type="button" value="getSth" />
+</div>
+
 @section Scripts{ 
 <script>
+    var authToken = '';
     $(document).ready(function () {
 
         $('.searchOgr').click(function () {
@@ -38,9 +44,75 @@
             let url = "/Ogrenci/OgrListPartial?aranacak=" + araAd + "&aranacakSoyad=" + araSoyad;
             console.log(url);
             $('#ogrList').load(url);
-        })
+        });
+
+        $("#btn_auth").click(function () {
+            console.log("clicked");
+
+            var autData = {
+                userName: 'yzcibrahim',
+                password: 'yzcyzc'
+            };
+
+            $.ajax({
+                url: 'http://localhost:40040/WeatherForecast/authentication',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(autData),
+                headers: {
+                    "Content-Type": "application/json",
+                    'Accept': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+                },
+                success: function (result) {
+                    console.log(result);
+                    authToken = result;
+                   // getNotesByOgr(ogrId);
+                },
+                error: function (e, t) {
+                    alert("E");
+                }
+            });
+
+           
+
+        });
+
+        $("#btn_get").click(function () {
+            //var url = "http://localhost:40040/WeatherForecast";
+            //$.get(url, function (data, status) {
+            //    console.log(data);
+            //});
+            $.ajax({
+                url: 'http://localhost:40040/WeatherForecast',
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Accept': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                    'Access-Control-Allow-Methods': 'GET',
+                    'Access-Control-Allow-Credentials': 'true',
+                    "Authorization": "Bearer " + authToken
+
+                },
+                success: function (result,e,t) {
+                    console.log(result);
+
+                    // getNotesByOgr(ogrId);
+                },
+                error: function (e, t,x) {
+                    alert("E");
+                    console.log(e);
+                    console.log(t);
+                }
+            });
+        });
 
     });
+
+
    
 </script>
 }
