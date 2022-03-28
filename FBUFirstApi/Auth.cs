@@ -23,7 +23,7 @@ namespace FBUFirstApi
         }
         public string Authentication(string username, string password)
         {
-            int userId = 226;
+            int userId = 1;
             if (!(username.Equals(_username) || password.Equals(_password))&& !(username.Equals(adminUser) || password.Equals(adminPwd)))
             {
                 return null;

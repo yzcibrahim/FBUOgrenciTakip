@@ -31,13 +31,13 @@ namespace FBUOgrenciTakip.Controllers
         {
           
             var basTar=DateTime.Now;
-            
-            List<Ogrenci> model =(List<Ogrenci>)_memCache.Get("ogrList");
-                if(model==null)
-            {
-                model=_ogrRepository.List();
-                _memCache.Set("ogrList", model,new TimeSpan(0,0,20));
-            }
+
+            OgrenciListDto model = (_ogrRepository as OgrRepository).Search("", "", 1);
+            //if (model==null)
+            //{
+            //    model=_ogrRepository.List();
+            //   // _memCache.Set("ogrList", model,new TimeSpan(0,0,20));
+            //}
             var bitTar = DateTime.Now;
             ViewData["duration"] = (bitTar - basTar).TotalMilliseconds;
            
@@ -45,33 +45,25 @@ namespace FBUOgrenciTakip.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string aranacak, string aranacakSoyad)
+        public IActionResult Index(string aranacak, string aranacakSoyad,int pageNum=1)
         {
             //var result = _ogrRepository.GetByIdGeneric(1);
             //var resultNot = _notRepository.GetByIdGeneric(4);
 
-            List<Ogrenci> model = _ogrRepository.List();
-            if (!String.IsNullOrEmpty(aranacak))
-            {
-                model = model.Where(c => c.Ad.ToUpper() == aranacak.ToUpper()).ToList();
-            }
-
-            if (!String.IsNullOrEmpty(aranacakSoyad))
-            {
-                model = model.Where(c => c.Soyad.ToUpper().StartsWith(aranacakSoyad.ToUpper())).ToList();
-            }
+            OgrenciListDto model = (_ogrRepository as OgrRepository).Search(aranacak, aranacakSoyad,pageNum);
+           
             ViewBag.aranacak = aranacak;
             ViewBag.aranacakSoyad = aranacakSoyad;
 
             return View(model);
         }
 
-        public IActionResult OgrListPartial(string aranacak, string aranacakSoyad)
+        public IActionResult OgrListPartial(string aranacak, string aranacakSoyad,int pageNum=1)
         {
             if (_ogrRepository is OgrRepository)
             {
                 //  List<Ogrenci> model = ((OgrRepository)_ogrRepository).Search(aranacak, aranacakSoyad);
-                List<Ogrenci> model = (_ogrRepository as OgrRepository).Search(aranacak, aranacakSoyad);
+                OgrenciListDto model = (_ogrRepository as OgrRepository).Search(aranacak, aranacakSoyad, pageNum);
                 return View(model);
             }
 

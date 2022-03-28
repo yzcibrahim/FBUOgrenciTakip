@@ -20,10 +20,10 @@ namespace DataAccessLayer.Repositories
            return _ctx.Ogrenciler.Include(c=>c.Nots).FirstOrDefault(c => c.Id==id);
         }
 
-        public List<Ogrenci> Search(string aranacakAd="", string AranacakSoyad="")
+        public OgrenciListDto Search(string aranacakAd="", string AranacakSoyad="",int pageNum=1)
         {
             var query = _ctx.Ogrenciler.Where(c=>1==1);
-            
+          
             if (!String.IsNullOrEmpty(aranacakAd))
             {
                 query = query.Where(c => c.Ad == aranacakAd);
@@ -32,10 +32,14 @@ namespace DataAccessLayer.Repositories
             {
                 query = query.Where(c => c.Soyad == AranacakSoyad);
             }
-            return query.ToList();
+
+            OgrenciListDto result = new OgrenciListDto();
+            result.TotalCount= query.Count();
+            result.OgrList= query.Skip((pageNum - 1) * 5).Take(5).ToList();
+            return result;
         }
 
-        
+      
 
         public List<myConfig> listCfg()
         {

@@ -44,7 +44,7 @@ namespace DataAccessLayer.Repositories
             return entity;
         }
 
-        public List<T> List()
+        public virtual List<T> List()
         {
             //try
             //{

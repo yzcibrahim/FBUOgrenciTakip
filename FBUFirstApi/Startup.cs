@@ -34,7 +34,7 @@ namespace FBUFirstApi
 
             services.AddControllers();
 
-            var key = "This is my first Test Key";
+            var key = "FbuAuth Key Fener Bahce Uni";
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

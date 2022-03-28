@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataAccessLayer.Entities.Ogrenci>
+﻿@model DataAccessLayer.Entities.OgrenciListDto  
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -7,22 +7,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayName("Id")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ad)
+                @Html.DisplayName("Ad")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Soyad)
+                @Html.DisplayName("Soyad")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tel)
+                @Html.DisplayName("Tel")
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OgrList)
         {
             <tr>
                 <td>
@@ -46,3 +46,18 @@
         }
     </tbody>
 </table>
+<div>
+    @{ 
+        int artikSayfa = 0;
+        int oran = Model.TotalCount / 5;
+        if (oran*5 < Model.TotalCount)
+        {
+            artikSayfa = 1;
+        }
+    }
+   
+    @for (int i = 1; i <= Model.TotalCount / 5+ artikSayfa; i++)
+    {
+        <input type="button" value="@i" onclick="loadDiv(@i)" />
+    }
+</div>

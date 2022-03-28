@@ -18,13 +18,13 @@ namespace FBUOgrenciTakip.Attributes
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var loggedUSer = context.HttpContext.Session.GetString("username");
-            if (String.IsNullOrWhiteSpace(loggedUSer))
-            {
-                string ct = context.HttpContext.Request.RouteValues["controller"].ToString();
-                string ac = context.HttpContext.Request.RouteValues["action"].ToString();
-                context.Result = new RedirectToActionResult("Login", "Home", new { cnt = ct, act = ac });
-            }
+            //var loggedUSer = context.HttpContext.Session.GetString("username");
+            //if (String.IsNullOrWhiteSpace(loggedUSer))
+            //{
+            //    string ct = context.HttpContext.Request.RouteValues["controller"].ToString();
+            //    string ac = context.HttpContext.Request.RouteValues["action"].ToString();
+            //    context.Result = new RedirectToActionResult("Login", "Home", new { cnt = ct, act = ac });
+            //}
               
         }
     }
